@@ -1,0 +1,100 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<project name = "ProjektPA" default = "Run-Project" basedir = ".">
+	
+	<property name = "Proj_name" value = "ProjektPA" />
+	<property name = "version" value = "1_0" />
+	<property name = "bin" value = "bin" />
+	<property name = "src" value = "src" />
+	<property name = "doc" value = "doc" />
+	<property name = "lib2" value = "lib" />
+	<property name = "this" value = "dist"/>
+	<property name="dir.buildfile" value="."/>
+	<property name="dir.workspace" value="C:/Users/wojte/eclipse-workspace"/>
+	<property name="dir.jarfile" value="C:/Users/wojte/OneDrive/Pulpit/java/my/zad1/dist"/>
+	
+	<property name = "k.main" value = "${src}/zad1_1/main.java" />
+	<property name = "p.main" location = "${src}/zad1_1" />
+	<property name = "p.gui" location = "${src}/Gui" />
+	<property name = "p.gui_list" location = "${src}/Gui_Listners" />
+	<property name = "p.Logic" location = "${src}/Logic" />
+	<property name = "p.Storage" location = "${src}/Storage" />
+
+   <target name = "Init">
+      <echo message = "Inicjacja folderów projektu"/>
+     	<delete dir = "${bin}"/>
+     	<delete dir = "${doc}"/>
+     	<delete dir = "${dist}"/>
+     	
+      	<mkdir dir = "${bin}"/>
+      	<mkdir dir = "${doc}"/>
+      	<mkdir dir = "${this}"/>
+   </target>
+   
+	<target name = "Compile" depends = "Init">
+      <echo message = "Kompliacja pakietów ..."/>
+      	<javac srcdir = "${p.Storage}" destdir = "${bin}" classpathref="build.classpath" includeantruntime="false" ></javac>
+      	<javac srcdir = "${p.Logic}" destdir = "${bin}" classpathref="build.classpath" includeantruntime="false" ></javac>
+	  
+	  	<javac srcdir = "${p.gui}" destdir = "${bin}" classpathref="build.classpath" includeantruntime="false" ></javac>
+      	<javac srcdir = "${p.gui_list}" destdir = "${bin}" classpathref="build.classpath" includeantruntime="false" ></javac>
+	  	<javac srcdir = "${p.main}" destdir = "${bin}" classpathref="build.classpath" includeantruntime="false" ></javac>
+	      
+	</target>
+	
+	<target name = "Javadoc" depends = "Compile">
+    	<echo message = "Utworzenie dokumentacji javadoc..." />
+    	<javadoc sourcefiles = "${p.Storage}/*.java,${p.Logic}/*.java,${p.gui}/*.java,${p.gui_list}/*.java,${p.main}/*.java"
+    	destdir = "${doc}/javadoc" 
+    	classpathref="build.classpath"
+    	 /> 
+    </target>
+	
+	<target name="dist" depends = "Compile,Javadoc">
+		<jar destfile="${dir.jarfile}/ProjPa_1_0.jar">
+	<manifest>
+
+		<attribute name="Main-Class" value="zad1_1.main"/>
+		<attribute name="Class-Path" value="ProjPa_1_0_lib/jcalendar(1).jar ProjPa_1_0_lib/jfreechart-1.0.19.jar ProjPa_1_0_lib/l2fprod-common-outlookbar.jar ProjPa_1_0_lib/l2fprod-common-totd.jar ProjPa_1_0_lib/jcommon-1.0.23.jar ProjPa_1_0_lib/swingx-1.6.jar ProjPa_1_0_lib/log4j-1.2.17.jar"/>
+
+	</manifest>
+
+	<fileset dir="${bin}"/></jar>
+		
+		<mkdir dir="${this}/ProjPa_1_0_lib"/>
+		<copy todir="${this}/ProjPa_1_0_lib" file="${lib2}/jcalendar(1).jar"/>
+		<copy todir="${this}/ProjPa_1_0_lib" file="${lib2}//jfreechart-1.0.19.jar"/>
+		<copy todir="${this}/ProjPa_1_0_lib" file="${lib2}/l2fprod-common-outlookbar.jar"/>
+		<copy todir="${this}/ProjPa_1_0_lib" file="${lib2}/l2fprod-common-totd.jar"/>
+		<copy todir="${this}/ProjPa_1_0_lib" file="${lib2}/jcommon-1.0.23.jar"/>
+		<copy todir="${this}/ProjPa_1_0_lib" file="${lib2}/swingx-1.6.jar"/>
+		<copy todir="${this}/ProjPa_1_0_lib" file="${lib2}/log4j-1.2.17.jar"/>
+
+	</target>
+	
+	<target name = "Run-Project" depends = "dist,Compile">
+    	<echo message = "Start aplikacji..." />
+    	<java classname="zad1_1.main" fork="true" failonerror = "yes" >
+    		 <classpath >
+    		 	<pathelement location = "." />
+    		 	<pathelement location = "${bin}" />
+		    	<pathelement location = "${lib2}/jcalendar(1).jar" />
+		    	<pathelement location = "${lib2}/jfreechart-1.0.19.jar" />
+		    	<pathelement location = "${lib2}/l2fprod-common-outlookbar.jar" />
+		    	<pathelement location = "${lib2}/l2fprod-common-totd.jar" />
+		    	<pathelement location = "${lib2}/jcommon-1.0.23.jar" />
+		    	<pathelement location = "${lib2}/swingx-1.6.jar" />
+		    	<pathelement location = "${lib2}/log4j-1.2.17.jar" />
+    		 </classpath>
+
+		</java>
+		
+	</target>
+	
+	<path id="build.classpath">
+        <fileset dir="${lib2}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+	
+
+ </project>

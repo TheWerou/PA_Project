@@ -1,0 +1,9 @@
+# Byte-compiled / optimized / DLL files
+
+# my own
+proj/
+Storage/
+Order_classes/
+Data_base/
+dist/
+bin/
