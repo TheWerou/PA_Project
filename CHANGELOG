@@ -1,0 +1,11 @@
+--------------------------------------------------------------------------
+Date:       17.05.2020 
+Version:    1.0 
+
+Description :
+Project added to git and i think it work :)
+
+Known isue:
+Some times in Eclipse console show NullPointerExeption at very u lunch program,
+but it disappears and do nothing.(Method where i create object for icons)
+--------------------------------------------------------------------------
